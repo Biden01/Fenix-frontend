@@ -68,11 +68,10 @@ export const Header = () => {
                         <nav className="hidden lg:flex items-center space-x-8">
                             <Link
                                 to="/"
-                                className={`font-medium transition ${
-                                    isActive('/')
-                                        ? 'text-green-600'
-                                        : 'text-gray-700 hover:text-green-600'
-                                }`}
+                                className={`font-medium transition ${isActive('/')
+                                    ? 'text-green-600'
+                                    : 'text-gray-700 hover:text-green-600'
+                                    }`}
                             >
                                 Главная
                             </Link>
@@ -84,11 +83,10 @@ export const Header = () => {
                             </a>
                             <Link
                                 to="/shop"
-                                className={`font-medium transition ${
-                                    isActive('/shop')
-                                        ? 'text-green-600'
-                                        : 'text-gray-700 hover:text-green-600'
-                                }`}
+                                className={`font-medium transition ${isActive('/shop')
+                                    ? 'text-green-600'
+                                    : 'text-gray-700 hover:text-green-600'
+                                    }`}
                             >
                                 Продукция
                             </Link>
@@ -100,13 +98,32 @@ export const Header = () => {
                             </a>
 
                             {isAuthenticated ? (
-                                <Link
-                                    to="/cabinet"
-                                    className="flex items-center text-gray-700 hover:text-green-600 font-medium transition"
-                                >
-                                    <User className="w-5 h-5 mr-2" />
-                                    {user?.full_name || 'Кабинет'}
-                                </Link>
+                                <div className="relative group">
+                                    <button className="flex items-center text-gray-700 hover:text-green-600 font-medium transition">
+                                        <User className="w-5 h-5 mr-2" />
+                                        {user?.full_name || 'Кабинет'}
+                                        <ChevronDown className="w-4 h-4 ml-1" />
+                                    </button>
+                                    <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                        <Link
+                                            to="/cabinet"
+                                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition"
+                                        >
+                                            <User className="w-4 h-4 mr-2" />
+                                            Личный кабинет
+                                        </Link>
+                                        <button
+                                            onClick={() => {
+                                                useAuthStore.getState().logout();
+                                                window.location.href = '/';
+                                            }}
+                                            className="flex items-center w-full px-4 py-3 text-red-600 hover:bg-red-50 transition border-t"
+                                        >
+                                            <X className="w-4 h-4 mr-2" />
+                                            Выйти
+                                        </button>
+                                    </div>
+                                </div>
                             ) : (
                                 <>
                                     <Link
@@ -131,8 +148,8 @@ export const Header = () => {
                                 <ShoppingCart className="w-6 h-6 text-gray-700" />
                                 {itemsCount > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                    {itemsCount}
-                  </span>
+                                        {itemsCount}
+                                    </span>
                                 )}
                             </Link>
 
@@ -162,9 +179,21 @@ export const Header = () => {
                                     Бонусная программа
                                 </a>
                                 {isAuthenticated ? (
-                                    <Link to="/cabinet" className="text-gray-700 hover:text-green-600 font-medium" onClick={() => setMobileMenuOpen(false)}>
-                                        Личный кабинет
-                                    </Link>
+                                    <>
+                                        <Link to="/cabinet" className="text-gray-700 hover:text-green-600 font-medium" onClick={() => setMobileMenuOpen(false)}>
+                                            Личный кабинет
+                                        </Link>
+                                        <button
+                                            onClick={() => {
+                                                setMobileMenuOpen(false);
+                                                useAuthStore.getState().logout();
+                                                window.location.href = '/';
+                                            }}
+                                            className="text-left text-red-600 hover:text-red-700 font-medium"
+                                        >
+                                            Выйти
+                                        </button>
+                                    </>
                                 ) : (
                                     <>
                                         <Link to="/login" className="text-gray-700 hover:text-green-600 font-medium" onClick={() => setMobileMenuOpen(false)}>
@@ -192,10 +221,10 @@ export const Header = () => {
                                     onClick={() => setCategoriesOpen(!categoriesOpen)}
                                     className="flex items-center justify-between bg-green-600 px-6 py-4 hover:bg-green-700 transition min-w-[240px]"
                                 >
-                  <span className="flex items-center">
-                    <Menu className="w-5 h-5 mr-2" />
-                    Категории
-                  </span>
+                                    <span className="flex items-center">
+                                        <Menu className="w-5 h-5 mr-2" />
+                                        Категории
+                                    </span>
                                     <ChevronDown className="w-4 h-4" />
                                 </button>
 
